@@ -1,0 +1,57 @@
+# Load necessary libraries
+library(readxl)
+library(dplyr)
+library(ggplot2)
+library(forcats)
+
+# Load the data
+file_path <- "C:\\Users\\ASUS\\OneDrive\\Desktop\\R programming.xlsx"
+df <- read_excel(file_path)
+print(head(df))
+
+# Descriptive statistics
+print(summary(df))
+
+# Distribution of laptop prices
+ggplot(df, aes(x = Price_euros)) +
+  geom_histogram(binwidth = 100, fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Distribution of Laptop Prices", x = "Price (Euros)", y = "Count")
+
+# Price vs Screen Size
+ggplot(df, aes(x = Inches, y = Price_euros)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  labs(title = "Price vs Screen Size", x = "Screen Size (Inches)", y = "Price (Euros)")
+
+# Convert RAM to numeric by removing 'GB' and converting to numeric
+df$Ram <- as.numeric(gsub("GB", "", df$Ram))
+
+# Price vs RAM
+ggplot(df, aes(x = Ram, y = Price_euros)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  labs(title = "Price vs RAM", x = "RAM (GB)", y = "Price (Euros)")
+
+# Convert Weight to numeric by removing 'kg' and converting to numeric
+df$Weight <- as.numeric(gsub("kg", "", df$Weight))
+
+# Price vs Weight
+ggplot(df, aes(x = Weight, y = Price_euros)) +
+  geom_point(color = "blue", alpha = 0.6) +
+  labs(title = "Price vs Weight", x = "Weight (kg)", y = "Price (Euros)")
+
+# Most Frequent Companies
+ggplot(df, aes(x = fct_infreq(Company))) +
+  geom_bar(fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Most Frequent Laptop Companies", x = "Company", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Most Frequent Types
+ggplot(df, aes(x = fct_infreq(TypeName))) +
+  geom_bar(fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Most Frequent Laptop Types", x = "Type", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+# Most Frequent Operating Systems
+ggplot(df, aes(x = fct_infreq(OpSys))) +
+  geom_bar(fill = "blue", color = "black", alpha = 0.7) +
+  labs(title = "Most Frequent Operating Systems", x = "Operating System", y = "Count") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
